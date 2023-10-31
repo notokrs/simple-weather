@@ -48,8 +48,8 @@ function App() {
           }
         >
           <div>
-            <div alt="cloud" className="cloud1 z-10"></div>
-            <div alt="cloud" className="cloud2 z-10"></div>
+            <div alt="cloud" className="cloud1 h-32 sm:h-2/6 z-10"></div>
+            <div alt="cloud" className="cloud2 h-36 sm:h-3/6 z-10"></div>
           </div>
           <div className="grid place-items-center h-screen">
             <Card {...data} />

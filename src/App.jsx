@@ -7,30 +7,40 @@ function App() {
   const [data, setData] = useState({});
   const [err, setErr] = useState({});
 
-  useEffect(() => {
-    const fetchWeather = async (lat, long) => {
-      const weather = await getWeather(lat, long);
-      const address = await getAddress(lat, long);
+  const fetchWeather = async (lat, long) => {
+    const weather = await getWeather(lat, long);
+    const address = await getAddress(lat, long);
 
-      const data = {
-        location: `${address.village}, ${address.city_district}`,
-        temperature: weather.temperature,
-        humidity: weather.humidity,
-        windspeed: weather.windspeed,
-        is_day: weather.is_day,
-        rain: weather.rain,
-      };
-      setData(data);
+    let location = '';
+    if (!address.village || !address.city_district) {
+      location = `${address.city}, ${address.country}`;
+    } else {
+      location = `${address.village}, ${address.city_district}`;
+    }
+
+    const data = {
+      location: location,
+      temperature: weather.temperature,
+      humidity: weather.humidity,
+      windspeed: weather.windspeed,
+      is_day: weather.is_day,
+      rain: weather.rain,
     };
 
-    getCurrentLocation()
-      .then((pos) => {
-        fetchWeather(pos.latitude, pos.longitude);
-      })
-      .catch((err) => {
-        setErr(err);
-      });
-  }, []);
+    setData(data);
+  };
+
+  useEffect(() => {
+    if (Object.keys(data).length == 0) {
+      getCurrentLocation()
+        .then((pos) => {
+          fetchWeather(pos.latitude, pos.longitude);
+        })
+        .catch((err) => {
+          setErr(err);
+        });
+    }
+  }, [data]);
 
   if (Object.keys(err).length == 0) {
     if (Object.keys(data).length > 0) {
@@ -57,7 +67,7 @@ function App() {
         </div>
       );
     } else {
-      return <h1>Loading...</h1>;
+      return <h1 className="p-4">Loading...</h1>;
     }
   } else {
     return <h1>{err.message}</h1>;

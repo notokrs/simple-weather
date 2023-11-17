@@ -21,7 +21,8 @@ async function getAddress(lat, long) {
 
   return {
     village: data.address.village,
-    county: data.address.county,
+    country: data.address.country,
+    city: data.address.city,
     state: data.address.state,
     city_district: data.address.city_district,
   };

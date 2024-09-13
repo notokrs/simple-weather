@@ -12,10 +12,12 @@ function App() {
     const address = await getAddress(lat, long);
 
     let location = '';
-    if (!address.village || !address.city_district) {
-      location = `${address.city}, ${address.country}`;
-    } else {
+    if (address.village != undefined && address.city_district != undefined) {
       location = `${address.village}, ${address.city_district}`;
+    } else if (address.county != undefined && address.state != undefined) {
+      location = `${address.county}, ${address.state}`;
+    } else if (address.state != undefined && address.country != undefined) {
+      location = `${address.state}, ${address.country}`;
     }
 
     const data = {

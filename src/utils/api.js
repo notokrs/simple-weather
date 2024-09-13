@@ -25,7 +25,8 @@ async function getAddress(lat, long) {
     city: data.address.city,
     state: data.address.state,
     city_district: data.address.city_district,
+    county: data.address.county,
   };
 }
 
-export {getWeather, getAddress};
+export { getWeather, getAddress };

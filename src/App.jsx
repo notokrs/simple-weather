@@ -13,11 +13,11 @@ function App() {
 
     let location = '';
     if (address.village != undefined && address.city_district != undefined) {
-      location = `${address.village}, ${address.city_district}`;
+      location = `${address.village} - ${address.city_district}`;
     } else if (address.county != undefined && address.state != undefined) {
-      location = `${address.county}, ${address.state}`;
+      location = `${address.county} - ${address.state}`;
     } else if (address.state != undefined && address.country != undefined) {
-      location = `${address.state}, ${address.country}`;
+      location = `${address.state} - ${address.country}`;
     }
 
     const data = {
@@ -44,7 +44,7 @@ function App() {
     }
   }, [data]);
 
-  if (Object.keys(err).length == 0) {
+  if (!(err instanceof GeolocationPositionError)) {
     if (Object.keys(data).length > 0) {
       return (
         <div
@@ -72,7 +72,18 @@ function App() {
       return <h1 className="p-4">Loading...</h1>;
     }
   } else {
-    return <h1>{err.message}</h1>;
+    return (
+      <h1 className="p-5">
+        Tidak dapat menemukan lokasi anda. Cek lokasi browser anda{' '}
+        <a
+          target="_blank"
+          href="https://browserleaks.com/geo"
+          className="text-blue-600 visited:text-purple-600 hover:underline"
+        >
+          disini.
+        </a>
+      </h1>
+    );
   }
 }
 
